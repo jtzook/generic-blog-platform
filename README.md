@@ -2,6 +2,10 @@
 
 This is a web application that allows users to create, read, update and delete (CRUD) posts on a blog platform.
 
+## Setup
+
+- TODO
+
 ## Features
 
 - Users can sign up and log in with their email and password
