@@ -4,7 +4,12 @@ This is a web application that allows users to create, read, update and delete (
 
 ## Setup
 
-- TODO
+### Building and Running Postgres Container
+
+```bash
+    docker-compose build
+    docker-compose up -d
+```
 
 ## Features
 
