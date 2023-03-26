@@ -24,7 +24,7 @@ This is a web application that allows users to create, read, update and delete (
 
 This project uses the following technologies:
 
-- Java 11 for the backend (OpenJDK)
+- Java 17 for the backend (Bellsoft Liberica JDK)
 - Spring Boot for the web framework
 - Postgres for the database
 - Hibernate for the object-relational mapping
