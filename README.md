@@ -11,6 +11,13 @@ This is a web application that allows users to create, read, update and delete (
     docker-compose up -d
 ```
 
+### Running the API
+
+```bash
+    cd gb-api
+    ./gradlew bootRun
+```
+
 ## Features
 
 - Users can sign up and log in with their email and password
