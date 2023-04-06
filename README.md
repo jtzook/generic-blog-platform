@@ -14,8 +14,8 @@ This is a web application that allows users to create, read, update and delete (
 ### Running the API
 
 ```bash
-    cd gb-api
-    ./gradlew bootRun
+    cd gbapi
+    mvn spring-boot:run
 ```
 
 ## Features
@@ -41,7 +41,7 @@ This project uses the following technologies:
 
 ## Installation
 
-To run this project locally, you need to have Java 11, Postgres, Maven and Node.js installed on your machine.
+To run this project locally, you need to have Java 17, Postgres, Maven and Node.js installed on your machine.
 
 1. Clone this repository to your local machine
 2. Create a database named `blog` in Postgres and run the `schema.sql` file in the `src/main/resources` folder to create the tables
