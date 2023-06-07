@@ -5,12 +5,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
 @RestController
 public class GbapiApplication {
 
 	public static void main(String[] args) {
+    Dotenv dotenv = Dotenv.load();
+    System.setProperty("DATABASE_URL", dotenv.get("DATABASE_URL"));
+    System.setProperty("DATABASE_USER", dotenv.get("DATABASE_USER"));
+    System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
+
 		SpringApplication.run(GbapiApplication.class, args);
 	}
 
