@@ -1,4 +1,4 @@
-# Generic Blog
+# Generic Blog Platform
 
 This is a web application that allows users to create, read, update and delete (CRUD) posts on a blog platform.
 
