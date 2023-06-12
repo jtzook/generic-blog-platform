@@ -1,4 +1,4 @@
-package com.jtzook.gbapi.model;
+package com.jtzook.gbapi.models;
 
 import jakarta.persistence.*; // for Spring Boot 3
 

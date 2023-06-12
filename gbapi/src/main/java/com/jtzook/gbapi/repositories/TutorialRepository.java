@@ -1,8 +1,9 @@
-package com.jtzook.gbapi.repository;
+package com.jtzook.gbapi.repositories;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.jtzook.gbapi.model.Tutorial;
+
+import com.jtzook.gbapi.models.Tutorial;
 
 public interface TutorialRepository extends JpaRepository<Tutorial, Long> {
   List<Tutorial> findByPublished(boolean published);

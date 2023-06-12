@@ -1,4 +1,4 @@
-package com.jtzook.gbapi.controller;
+package com.jtzook.gbapi.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jtzook.gbapi.model.Tutorial;
-import com.jtzook.gbapi.repository.TutorialRepository;
+import com.jtzook.gbapi.models.Tutorial;
+import com.jtzook.gbapi.repositories.TutorialRepository;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
