@@ -37,19 +37,7 @@ This project uses the following technologies:
 - Hibernate for the object-relational mapping
 - React for the frontend
 - JUnit 5 for the backend testing framework
-- Jest for the frontend testing framework
-
-## Installation
-
-To run this project locally, you need to have Java 17, Postgres, Maven and Node.js installed on your machine.
-
-1. Clone this repository to your local machine
-2. Create a database named `blog` in Postgres and run the `schema.sql` file in the `src/main/resources` folder to create the tables
-3. Update the `application.properties` file in the `src/main/resources` folder with your Postgres username and password
-4. Open a terminal in the project root folder and run `mvn spring-boot:run` to start the backend server
-5. Open another terminal in the `src/main/frontend` folder and run `npm install` to install all dependencies
-6. Run `npm start` to start the frontend server
-7. Open a browser and go to `http://localhost:3000` to access the web application
+- Vitest for the frontend testing framework
 
 ## Usage
 
@@ -69,7 +57,5 @@ To like or dislike any post or comment, click on the `Like` or `Dislike` button 
 
 This project has unit tests and integration tests to ensure its quality and functionality.
 
-To run all tests, open two terminals in both backend (`src/test/java`)and frontend (`src/main/frontend`) folders respectively  then run `mvn test` in one terminal  then run  'npm test' in another terminal .
-
-To run only backend tests, open one terminal in backend (`src/test/java`) folder then run `mvn test
+To run all tests,
 ```
