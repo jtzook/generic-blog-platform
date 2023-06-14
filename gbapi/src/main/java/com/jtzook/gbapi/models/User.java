@@ -69,7 +69,4 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true; // Modify the logic as needed
     }
-
-    // Implement other UserDetails methods as needed
-
 }
