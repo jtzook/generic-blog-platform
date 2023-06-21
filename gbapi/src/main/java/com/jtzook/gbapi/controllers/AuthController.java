@@ -62,7 +62,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body("Error: Username is already taken!");
         }
 
         // Create new user's account
@@ -96,7 +96,7 @@ public class AuthController {
         userRepository.save(user);
 
         // return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-        return ResponseEntity.ok(Map.of("message", "User registered successfully!"));
+        return ResponseEntity.ok().body(("User registered successfully!"));
     }
 }
 
