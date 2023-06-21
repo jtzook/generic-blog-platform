@@ -14,24 +14,21 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
     private String username;
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<UserRole> roles = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> userRoles = new HashSet<>();
 
     public Long getId() {
-        return user_id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.user_id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -51,10 +48,10 @@ public class User {
     }
 
     public Set<UserRole> getRoles() {
-        return roles;
+        return userRoles;
     }
 
     public void setRoles(Set<UserRole> roles) {
-        this.roles = roles;
+        this.userRoles = roles;
     }
 }

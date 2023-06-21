@@ -9,16 +9,17 @@ import jakarta.persistence.*;
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long role_id;
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
     private ERole name;
 
-    // foreign key user_id
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
+    private UserRole role;
 
     public UserRole() {
 
@@ -29,11 +30,11 @@ public class UserRole {
     }
 
     public Long getId() {
-        return role_id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.role_id = id;
+        this.id = id;
     }
 
     public ERole getName() {
