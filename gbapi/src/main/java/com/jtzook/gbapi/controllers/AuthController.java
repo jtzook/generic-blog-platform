@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.jtzook.gbapi.auth.ERole;
+import com.jtzook.gbapi.auth.JwtResponse;
 import com.jtzook.gbapi.auth.SigninRequest;
 import com.jtzook.gbapi.auth.SignupRequest;
 import com.jtzook.gbapi.models.Role;

@@ -52,6 +52,10 @@ public class UserDetailsImpl implements UserDetails {
         return password;
     }
 
+    public Collection<? extends GrantedAuthority> getRoles() {
+        return authorities;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
