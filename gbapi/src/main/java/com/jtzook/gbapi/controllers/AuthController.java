@@ -16,7 +16,7 @@ import com.jtzook.gbapi.auth.ERole;
 import com.jtzook.gbapi.auth.JwtResponse;
 import com.jtzook.gbapi.auth.SigninRequest;
 import com.jtzook.gbapi.auth.SignupRequest;
-import com.jtzook.gbapi.models.Role;
+import com.jtzook.gbapi.models.UserRole;
 import com.jtzook.gbapi.models.User;
 import com.jtzook.gbapi.models.UserDetailsImpl;
 import com.jtzook.gbapi.repositories.RoleRepository;
@@ -68,23 +68,23 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRoles();
-        Set<Role> roles = new HashSet<>();
+        Set<UserRole> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            UserRole userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        UserRole adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        UserRole userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
