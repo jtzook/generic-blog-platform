@@ -9,15 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import com.jtzook.gbapi.components.JwtAuthEntryPoint;
 import com.jtzook.gbapi.services.UserDetailsServiceImpl;
 
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthEntryPoint unauthorizedHandler;
@@ -37,14 +36,13 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    public void init(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests(expressionInterceptUrlRegistry ->
-                        expressionInterceptUrlRegistry.antMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                );
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated();
+        return http.build();
     }
 }
