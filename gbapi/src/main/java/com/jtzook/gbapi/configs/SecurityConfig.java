@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.jtzook.gbapi.components.JwtAuthEntryPoint;
 import com.jtzook.gbapi.services.UserDetailsServiceImpl;
 
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfiguration {
+public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthEntryPoint unauthorizedHandler;
@@ -27,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
+        return builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()).build();
     }
 
     @Bean
@@ -37,18 +38,13 @@ public class SecurityConfig extends WebSecurityConfiguration {
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public void init(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .authorizeHttpRequests(expressionInterceptUrlRegistry ->
+                        expressionInterceptUrlRegistry.antMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                );
     }
 }
