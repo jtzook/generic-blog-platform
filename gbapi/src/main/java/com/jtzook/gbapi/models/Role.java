@@ -5,17 +5,15 @@ import com.jtzook.gbapi.types.ERole;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "user_roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long role_id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole name;
-
-    // getters and setters
 
     public Role() {
 
@@ -26,11 +24,11 @@ public class Role {
     }
 
     public Long getId() {
-        return id;
+        return role_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.role_id = id;
     }
 
     public ERole getName() {
