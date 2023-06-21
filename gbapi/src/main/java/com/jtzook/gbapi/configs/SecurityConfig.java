@@ -9,10 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.jtzook.gbapi.components.JwtAuthEntryPoint;
+import com.jtzook.gbapi.filters.JwtAuthTokenFilter;
 import com.jtzook.gbapi.services.UserDetailsServiceImpl;
+
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +23,12 @@ public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthEntryPoint unauthorizedHandler;
+    private final JwtAuthTokenFilter jwtAuthTokenFilter;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler, JwtAuthTokenFilter jwtAuthTokenFilter) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthTokenFilter = jwtAuthTokenFilter;
     }
 
     @Bean
@@ -44,9 +49,9 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated());
+                .authorizeHttpRequests().anyRequest().authenticated().and()
+                .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }
