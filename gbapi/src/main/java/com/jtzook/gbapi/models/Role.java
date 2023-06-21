@@ -1,6 +1,6 @@
 package com.jtzook.gbapi.models;
 
-import com.jtzook.gbapi.types.ERole;
+import com.jtzook.gbapi.auth.ERole;
 
 import jakarta.persistence.*;
 

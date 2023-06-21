@@ -11,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.jtzook.gbapi.components.JwtAuthEntryPoint;
-import com.jtzook.gbapi.filters.JwtAuthTokenFilter;
+import com.jtzook.gbapi.auth.JwtAuthEntryPoint;
+import com.jtzook.gbapi.auth.JwtAuthTokenFilter;
 import com.jtzook.gbapi.services.UserDetailsServiceImpl;
 
 import org.springframework.security.web.SecurityFilterChain;

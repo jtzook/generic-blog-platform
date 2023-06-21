@@ -1,9 +1,12 @@
 package com.jtzook.gbapi.controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,13 +15,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import com.jtzook.gbapi.auth.ERole;
 import com.jtzook.gbapi.auth.SigninRequest;
 import com.jtzook.gbapi.auth.SignupRequest;
 import com.jtzook.gbapi.models.Role;
 import com.jtzook.gbapi.models.User;
 import com.jtzook.gbapi.models.UserDetailsImpl;
 import com.jtzook.gbapi.repositories.UserRepository;
-import com.jtzook.gbapi.types.ERole;
 import com.jtzook.gbapi.utils.JwtUtils;
 
 import jakarta.validation.Valid;
@@ -59,7 +62,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(Map.of("message", "Error: Username is already taken!"));
         }
 
         // Create new user's account
@@ -92,7 +95,8 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        // return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(Map.of("message", "User registered successfully!"));
     }
 }
 

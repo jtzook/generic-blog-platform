@@ -1,4 +1,4 @@
-package com.jtzook.gbapi.components;
+package com.jtzook.gbapi.auth;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

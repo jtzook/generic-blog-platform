@@ -1,4 +1,4 @@
-package com.jtzook.gbapi.filters;
+package com.jtzook.gbapi.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

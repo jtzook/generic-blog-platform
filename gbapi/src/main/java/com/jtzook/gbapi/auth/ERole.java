@@ -1,4 +1,4 @@
-package com.jtzook.gbapi.types;
+package com.jtzook.gbapi.auth;
 
 public enum ERole {
     ROLE_USER,
