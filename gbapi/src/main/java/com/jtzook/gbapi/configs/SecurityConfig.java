@@ -49,8 +49,11 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests().anyRequest().authenticated().and()
-                .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests()
+                    .requestMatchers("/hello", "/api/auth/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
