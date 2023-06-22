@@ -16,6 +16,7 @@ public class GbapiApplication {
     System.setProperty("DATABASE_URL", dotenv.get("DATABASE_URL"));
     System.setProperty("DATABASE_USER", dotenv.get("DATABASE_USER"));
     System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
+    System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
 
 		SpringApplication.run(GbapiApplication.class, args);
 	}
