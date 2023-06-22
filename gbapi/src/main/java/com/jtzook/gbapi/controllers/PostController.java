@@ -10,28 +10,28 @@ public class PostController {
     @GetMapping("/")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String getAllPosts() {
-        // implementation to get all posts
+        // TODO: implementation to get all posts
         return "GetAllPosts";
     }
 
     @PostMapping("/")
     @PreAuthorize("hasRole('USER')")
     public String createPost() {
-        // implementation to create a new post
+        // TODO: implementation to create a new post
         return "createPost";
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String updatePost(@PathVariable Long id) {
-        // implementation to update a post with a given id
+        // TODO: implementation to update a post with a given id
         return "updatePost";
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String deletePost(@PathVariable Long id) {
-        // implementation to delete a post with a given id
+        // TODO: implementation to delete a post with a given id
         return "deletePost";
     }
 }
