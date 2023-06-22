@@ -12,10 +12,10 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${app.jwtSecret}")
+    @Value("${spring.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationMs}")
+    @Value("${spring.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
