@@ -24,7 +24,9 @@ class GbapiApplicationTests {
 
     @Test
     void contextLoads() {
-        // Test the loading of the application context
+        // This test is implicitly performed by the @SpringBootTest annotation.
+        // It acts as a smoke test, validating that the application's basic configuration is correct.
+        // If the application context fails to load, the test will fail.
     }
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {

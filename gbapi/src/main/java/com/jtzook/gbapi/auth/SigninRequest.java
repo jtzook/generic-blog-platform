@@ -4,8 +4,6 @@ public class SigninRequest {
     private String username;
     private String password;
 
-    // getters and setters
-
     public String getUsername() {
         return this.username;
     }
