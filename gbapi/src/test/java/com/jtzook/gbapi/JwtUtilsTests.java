@@ -20,6 +20,8 @@ public class JwtUtilsTests {
 
     private String secretString = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    private String testJwt = "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODc1NTU4MjAsInN1YiI6ImV4cGVjdGVkLXVzZXIiLCJpYXQiOjE2ODc0Njk0MjB9.RyYgYQd3OKnNwkxBfIKXXahRwhwhoADzcKSzuD-t6jA";
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -41,21 +43,21 @@ public class JwtUtilsTests {
         Assertions.assertTrue(signedJWT.verify(verifier));
     }
 
-    // @Test
-    // public void testGetUserNameFromJwtToken() throws ParseException, JOSEException {
-    //     String jwtToken = "your-test-jwt-token"; // Replace with a valid JWT token
+    @Test
+    public void testGetUserNameFromJwtToken() throws ParseException, JOSEException {
+        String jwtToken = this.testJwt;
 
-    //     String username = jwtUtils.getUserNameFromJwtToken(jwtToken);
+        String username = jwtUtils.getUserNameFromJwtToken(jwtToken);
 
-    //     Assertions.assertEquals("expected-username", username);
-    // }
+        Assertions.assertEquals("expected-user", username);
+    }
 
-    // @Test
-    // public void testValidateJwtToken() throws ParseException, JOSEException {
-    //     String jwtToken = "your-test-jwt-token"; // Replace with a valid JWT token
+    @Test
+    public void testValidateJwtToken() throws ParseException, JOSEException {
+        String jwtToken = this.testJwt;
 
-    //     boolean isValid = jwtUtils.validateJwtToken(jwtToken);
+        boolean isValid = jwtUtils.validateJwtToken(jwtToken);
 
-    //     Assertions.assertTrue(isValid);
-    // }
+        Assertions.assertTrue(isValid);
+    }
 }
