@@ -22,6 +22,7 @@ import com.jtzook.gbapi.models.UserDetailsImpl;
 import com.jtzook.gbapi.repositories.RoleRepository;
 import com.jtzook.gbapi.repositories.UserRepository;
 import com.jtzook.gbapi.utils.JwtUtils;
+import com.nimbusds.jose.JOSEException;
 
 import jakarta.validation.Valid;
 
@@ -45,17 +46,20 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninRequest loginRequest) throws JOSEException {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getUserRoles()));
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getUserRoles()));
+        } catch (JOSEException e) {
+            throw new JOSEException(e.getMessage());
+        }
     }
 
     @PostMapping("/signup")

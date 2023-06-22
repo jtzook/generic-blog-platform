@@ -1,12 +1,17 @@
 package com.jtzook.gbapi.utils;
 
-import io.jsonwebtoken.*;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jwt.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.jtzook.gbapi.models.UserDetailsImpl;
 
+import java.text.ParseException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 @Component
@@ -16,42 +21,48 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${spring.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private long jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
-
+    public String generateJwtToken(Authentication authentication) throws JOSEException {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+        Instant now = Instant.now();
+        Date issuedAt = Date.from(now);
+        Date expiration = Date.from(now.plus(Duration.ofMillis(jwtExpirationMs)));
+
+        JWSSigner signer = new MACSigner(jwtSecret);
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .subject(userPrincipal.getUsername())
+                .issueTime(issuedAt)
+                .expirationTime(expiration)
+                .build();
+
+        SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+        signedJWT.sign(signer);
+
+        return signedJWT.serialize();
     }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-    }
+    public String getUserNameFromJwtToken(String token) throws ParseException, JOSEException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        JWSVerifier verifier = new MACVerifier(jwtSecret);
 
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            System.out.println("Invalid JWT signature: " + e.getMessage());
-        } catch (MalformedJwtException e) {
-            System.out.println("Invalid JWT token: " + e.getMessage());
-        } catch (ExpiredJwtException e) {
-            System.out.println("JWT token is expired: " + e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            System.out.println("JWT token is unsupported: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.out.println("JWT claims string is empty: " + e.getMessage());
+        if (signedJWT.verify(verifier)) {
+            return signedJWT.getJWTClaimsSet().getSubject();
+        } else {
+            throw new JOSEException("Invalid JWT signature");
         }
+    }
 
-        return false;
+    public boolean validateJwtToken(String authToken) throws JOSEException, ParseException {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(authToken);
+            JWSVerifier verifier = new MACVerifier(jwtSecret);
+
+            return signedJWT.verify(verifier) && !signedJWT.getJWTClaimsSet().getExpirationTime().before(new Date());
+        } catch (ParseException | JOSEException e) {
+            throw new JOSEException("Invalid JWT signature");
+        }
     }
 
 }
-
