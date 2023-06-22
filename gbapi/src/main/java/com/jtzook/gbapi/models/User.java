@@ -12,6 +12,8 @@ public class User {
         this.password = password;
     }
 
+    public User() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
