@@ -17,11 +17,14 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${spring.jwtSecret}")
-    private String jwtSecret;
+    private final String jwtSecret;
+    private final long jwtExpirationMs;
 
-    @Value("${spring.jwtExpirationMs}")
-    private long jwtExpirationMs;
+    public JwtUtils(@Value("${spring.jwtSecret}") String jwtSecret,
+                    @Value("${spring.jwtExpirationMs}") long jwtExpirationMs) {
+        this.jwtSecret = jwtSecret;
+        this.jwtExpirationMs = jwtExpirationMs;
+    }
 
     public String generateJwtToken(Authentication authentication) throws JOSEException {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -64,5 +67,4 @@ public class JwtUtils {
             throw new JOSEException("Invalid JWT signature");
         }
     }
-
 }
