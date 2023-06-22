@@ -1,7 +1,6 @@
-package com.jtzook.gbapi;
+package com.jtzook.gbapi.utils;
 
 import com.jtzook.gbapi.models.UserDetailsImpl;
-import com.jtzook.gbapi.utils.JwtUtils;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.*;
 import com.nimbusds.jwt.*;
