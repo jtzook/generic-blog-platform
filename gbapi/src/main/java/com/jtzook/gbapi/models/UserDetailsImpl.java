@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
+        List<GrantedAuthority> authorities = user.getUserRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
@@ -52,7 +52,7 @@ public class UserDetailsImpl implements UserDetails {
         return password;
     }
 
-    public Collection<? extends GrantedAuthority> getRoles() {
+    public Collection<? extends GrantedAuthority> getUserRoles() {
         return authorities;
     }
 

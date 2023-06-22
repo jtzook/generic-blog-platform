@@ -5,7 +5,7 @@ import java.util.Set;
 public class SignupRequest {
     private String username;
     private String password;
-    private Set<String> roles;
+    private Set<String> userRoles;
 
     public String getUsername() {
         return this.username;
@@ -15,12 +15,12 @@ public class SignupRequest {
         this.username = username;
     }
 
-    public Set<String> getRoles() {
-        return this.roles;
+    public Set<String> getUserRoles() {
+        return this.userRoles;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setRoles(Set<String> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public String getPassword() {

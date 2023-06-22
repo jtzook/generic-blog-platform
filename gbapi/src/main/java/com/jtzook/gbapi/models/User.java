@@ -47,11 +47,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<UserRole> getRoles() {
+    public Set<UserRole> getUserRoles() {
         return userRoles;
     }
 
-    public void setRoles(Set<UserRole> roles) {
-        this.userRoles = roles;
+    public void setRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }
