@@ -55,7 +55,7 @@ To like or dislike any post or comment, click on the `Like` or `Dislike` button 
 
 ### Testing
 
-This project has unit tests and integration tests to ensure its quality and functionality.
+#### API
 
-To run all tests,
+`mvn clean verify`
 ```
