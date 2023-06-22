@@ -1,13 +1,40 @@
 package com.jtzook.gbapi;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
+@ContextConfiguration(initializers = GbapiApplicationTests.Initializer.class)
 class GbapiApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @BeforeAll
+    static void setup() {
+        Dotenv dotenv = Dotenv.load();
+        System.setProperty("DATABASE_URL", dotenv.get("DATABASE_URL"));
+        System.setProperty("DATABASE_USER", dotenv.get("DATABASE_USER"));
+        System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
+        System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
+    }
 
+    @Test
+    void contextLoads() {
+        // Test the loading of the application context
+    }
+
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + System.getProperty("DATABASE_URL"),
+                    "spring.datasource.username=" + System.getProperty("DATABASE_USER"),
+                    "spring.datasource.password=" + System.getProperty("DATABASE_PASSWORD"),
+                    "spring.jwtSecret=" + System.getProperty("JWT_SECRET")
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
+    }
 }
