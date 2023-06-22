@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                    .requestMatchers("/hello", "/api/auth/**").permitAll()
+                    .requestMatchers("/hello", "/api/auth/signup", "/api/auth/signin").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
