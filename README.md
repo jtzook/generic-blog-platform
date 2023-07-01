@@ -14,7 +14,7 @@ This is a web application that allows users to create, read, update and delete (
 ### Running the API
 
 ```bash
-    cd gbapi
+    cd api
     mvn spring-boot:run
 ```
 
